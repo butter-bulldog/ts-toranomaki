@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { BookToRead } from "./BookToRead";
 import BookRow from "./BookRow";
@@ -25,13 +25,28 @@ const dummyBooks: BookToRead[] = [
 ];
 
 const App = () => {
-  const bookRows = dummyBooks.map((b) => {
+  const [books, setBooks] = useState(dummyBooks);
+
+  const handleBookDelete = (id: number) => {
+    const newBooks = books.filter((b) => b.id !== id);
+    setBooks(newBooks);
+  }
+
+  const handleBookMemoChange = (id: number, memo: string) => {
+    const newBooks = books.map((b) => {
+      // IDが一致したらスプレッド構文でbの各プロパティを展開し、memoだけを上書き
+      return b.id === id ? {...b, memo: memo} : b;
+    })
+    setBooks(newBooks);
+  }
+
+  const bookRows = books.map((b) => {
     return (
       <BookRow
         book={b}
         key={b.id}
-        onMemoChange={(id, memo) => {}}
-        onDelete={(id) => {}}
+        onMemoChange={(id, memo) => {handleBookMemoChange(id, memo)}}
+        onDelete={(id) => {handleBookDelete(id)}}
       />
     );
   });

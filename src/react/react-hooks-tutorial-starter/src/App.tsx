@@ -26,11 +26,6 @@ const customStyles = {
   }
 }
 
-
-
-
-
-
 const APP_KEY = "react-hooks-tutorial"
 const App = () => {
   const [books, setBooks] = useState([] as BookToRead[]);
@@ -43,16 +38,19 @@ const App = () => {
     }
   }, []);
 
-  // booksの内容が更新されるたびにこの副作用関数が実行される
+  // booksの内容が更新されるたびにこの副作用関数が実行されローカルストレージに保存
   useEffect(() => {
     localStorage.setItem(APP_KEY, JSON.stringify(books));
   }, [books]);
 
 
+  // 削除ボタン押下
   const handleBookDelete = (id: number) => {
     const newBooks = books.filter((b) => b.id !== id);
     setBooks(newBooks);
   }
+
+  // メモ欄更新
   const handleBookMemoChange = (id: number, memo: string) => {
     const newBooks = books.map((b) => {
       // IDが一致したらスプレッド構文でbの各プロパティを展開し、memoだけを上書き
@@ -61,18 +59,20 @@ const App = () => {
     setBooks(newBooks);
   }
 
-
   // モーダルがひらいているかどうかをステート変数として保持
   const [modalIsOpen, setModalIsOpen] = useState(false);
   
+  // 本を追加のイベント
   const handleAddClick = () => {
     setModalIsOpen(true);
   }
 
+  // モーダル閉じたときのイベント
   const handleModalClose = () => {
     setModalIsOpen(false);
   }
 
+  // 書籍追加時のコールバック関数
   const handleBookAdd = (book: BookDescription) => {
     const newBook: BookToRead = { ...book, id: Date.now(), memo: "" };
     const newBooks = [...books, newBook];

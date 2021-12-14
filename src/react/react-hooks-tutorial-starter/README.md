@@ -1,2 +1,2 @@
 # React Hooks チュートリアル（スターター）
-チュートリアルのステップ1から開始するためのスタータープロジェクトです。
+https://qiita.com/yonetty/items/ad19bddc26806bb49cef
